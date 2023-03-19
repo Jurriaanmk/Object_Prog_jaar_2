@@ -1,12 +1,9 @@
-#include <iostream>
 #include <cmath>
+#include <iostream>
 
 using namespace std;
 
-
-
-class Length
-{
+class Length {
     int feet;
     float inches;
 
@@ -20,29 +17,33 @@ public:
     Length largest(Length length);
     int Smallest(int cm);
     int Naar_cm();
-
-    Length() : feet(0), inches(0) {}
-    Length(int f, float i) : feet(f), inches(i)
+    Length operator+(Length const& obj);
+    Length()
+        : feet(0)
+        , inches(0)
+    {
+    }
+    Length(int f, float i)
+        : feet(f)
+        , inches(i)
     {
         if (inches >= 12) {
             feet += static_cast<int>(inches / 12);
             inches = inches - static_cast<int>(inches / 12) * 12;
         }
     }
-
-    Length operator+(Length l2);
-
 };
 
-Length Length::operator+(Length l2)
+Length Length::operator+(Length const& obj) // van rechts naar links, maar een object van de klasse Length genaamd l2
+                                            // aan, deze wordt in de klasse Length opgehaald
 {
-    inches = inches + l2.inches;
-    if (inches > 11)
-        {
-            feet++;
-            inches-=12;
-        }
-        feet = feet + l2.feet;
+    int f = feet + obj.feet;
+    int i = inches + obj.inches;
+    if (i >= 12) {
+        f++;
+        i -= 12;
+    }
+    return Length(f, i);
 }
 
 void Length::Invoer()
@@ -55,16 +56,14 @@ void Length::Omrekenen()
 {
     meters = 0;
     centimeters = 0.0;
-    centimeters = (feet * 12 + inches)*2.54;
+    centimeters = (feet * 12 + inches) * 2.54;
 
-    while (centimeters > 100)
-    {
+    while (centimeters > 100) {
         meters++;
-        centimeters -=100;
+        centimeters -= 100;
     }
 
-    cout << "Omgerekend is dit " << meters << " meter en " << round(centimeters) <<" centimeter."<< endl;
-
+    cout << "Omgerekend is dit " << meters << " meter en " << round(centimeters) << " centimeter." << endl;
 }
 
 void Length::Afstand(Length length)
@@ -76,7 +75,8 @@ void Length::Afstand(Length length)
     int distance_feet = static_cast<int>(total_inches / 12);
     float distance_inches = total_inches - distance_feet * 12;
 
-    cout << "De afstand tussen de twee lengtes is " << distance_feet << " feet en " << distance_inches << " inches." << endl;
+    cout << "De afstand tussen de twee lengtes is " << distance_feet << " feet en " << distance_inches << " inches."
+         << endl;
 }
 
 Length Length::largest(Length length)
@@ -91,18 +91,15 @@ Length Length::largest(Length length)
 }
 int Length::Naar_cm()
 {
-    float Object_cm = ((feet*12)+inches) *2.54;
+    float Object_cm = ((feet * 12) + inches) * 2.54;
     return round(Object_cm);
 }
 
 int Length::Smallest(int cm)
 {
-    if ( Naar_cm()> cm)
-    {
-    return cm;
-    }
-    else
-    {
+    if (Naar_cm() > cm) {
+        return cm;
+    } else {
         return Naar_cm();
     }
 }
@@ -112,12 +109,12 @@ int main()
     Length length1(5, 6);
     Length length2(2, 7);
     Length largest_length = length1.largest(length2);
-    Length smallest_length;  
+    Length smallest_length;
     if (largest_length.Naar_cm() == length1.Naar_cm()) {
         smallest_length = length2;
-     } else {
-         smallest_length = length1;
-     }
+    } else {
+        smallest_length = length1;
+    }
 
     cout << "De grootste lengte is: ";
     largest_length.Omrekenen();
@@ -125,11 +122,11 @@ int main()
     cout << "De kleinste lengte is: ";
     smallest_length.Omrekenen();
 
-     // Set grootste gelijk aan kleinste
-     largest_length = smallest_length;
+    // Set grootste gelijk aan kleinste
+    largest_length = smallest_length;
 
     cout << "De grootste lengte is nu gelijk aan de kleinste: ";
-     largest_length.Omrekenen();
+    largest_length.Omrekenen();
 
- return 0;
+    return 0;
 }

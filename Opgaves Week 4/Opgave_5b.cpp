@@ -55,13 +55,14 @@ public:
     }
 };
 
-class ClassVierkant : public ClassRechthoek {
-private:
+class ClassVierkant : protected ClassRechthoek {
 public:
-    ClassVierkant(int zijde)
-        : ClassRechthoek(zijde, zijde)
-    {
-    }
+    ClassVierkant();
+    ClassVierkant(int zijde) : ClassRechthoek(zijde, zijde) {}
+    int get_lengte() const { return ClassRechthoek::get_lengte(); }
+    int get_breedte() const { return ClassRechthoek::get_breedte(); }
+    int oppervlakte() const { return ClassRechthoek::oppervlakte(); }
+    void viervoud(){ ClassRechthoek::viervoud(); }
 };
 
 int main()
@@ -93,7 +94,7 @@ int main()
     cout << "Lengte omvattend: " << omvattend_rechthoek.get_lengte() << endl;
     cout << "Breedte omvattend: " << omvattend_rechthoek.get_breedte() << endl;
 
-    ClassVierkant vierkant(10);
+    ClassVierkant vierkant(20);
     cout << "Lengte: " << vierkant.get_lengte() << endl;
     cout << "Breedte: " << vierkant.get_breedte() << endl;
     cout << "Oppervlakte: " << vierkant.oppervlakte() << endl;
