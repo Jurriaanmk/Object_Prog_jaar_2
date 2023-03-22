@@ -9,11 +9,7 @@ private:
     int breedte_;
 
 public:
-    ClassRechthoek()
-        : lengte_(0)
-        , breedte_(0)
-    {
-    }
+    ClassRechthoek(): lengte_(0), breedte_(0){ }
 
     ClassRechthoek(int lengte, int breedte)
         : lengte_(lengte)
